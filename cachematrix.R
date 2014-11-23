@@ -1,15 +1,39 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These are the functions for programming assignment 2 that will
+## create a special matrix object that can cache its inverse AND
+## compute the inverse of that special matrix.  If the matrix has
+## already been solved previously, then it will retrieve the inverse
+## from the cache.
 
-## Write a short comment describing this function
+## The first function makes the special matrix object that can cache
+## its inverse.
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setmean <- function(mean) m <<- mean
+  getmean <- function() m
+  list(set = set, get = get,
+       setmean = setmean,
+       getmean = getmean)
 }
 
 
-## Write a short comment describing this function
+## This function computes the inverse of the matrix in the first function
+## If the inverse has been calculated already, it gets it from the cache
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+  m <- x$getmean()
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- mean(data, ...)
+  x$setmean(m)
+  m
 }
